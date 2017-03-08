@@ -21,7 +21,7 @@ class AutoRipper():
         print "AutoRipper - Waiting for Audio Disk"
         #loop until a disk hasnt been inserted within the timeout
         lastTimeDiskFound = datetime.datetime.now()
-        while (lastTimeDiskFound + datetime.timedelta(0,self.timeout)) > datetime.datetime.now():
+        while (lastTimeDiskFound + datetime.timedelta(0,self.timeout)) > datetime.datetime.now() or not self.timeout:
             #is there a disk in the drive?
             if self.cdDrive.get_empty() == False:
                 # Disk found
@@ -43,9 +43,6 @@ class AutoRipper():
                     subprocess.call(["eject"])
                 lastTimeDiskFound = datetime.datetime.now()
                 print "AutoRipper - Waiting for disk"
-            else:
-                # No disk - eject the tray
-                subprocess.call(["eject"])
             # wait for a bit, before checking if there is a disk
             time.sleep(5)
 
